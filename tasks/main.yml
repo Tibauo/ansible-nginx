@@ -1,0 +1,30 @@
+---
+# tasks file for nginx
+- name: Install nginx
+  become: yes
+  package:
+    name: nginx
+    state: present
+
+- name: create conf.d 
+  become: yes
+  file:
+    path: /etc/nginx/conf.d
+    state: directory
+
+- name: create config
+  become: yes
+  template:
+    dest: "/etc/nginx/conf.d/{{ item.name }}.conf"
+    src: template.conf.j2
+  with_items:
+    - "{{ gogs }}"
+    - "{{ kibana }}"
+
+- name: Start nginx
+  become: yes
+  systemd:
+    name: nginx
+    enabled: yes
+    state: started
+    daemon_reload: yes

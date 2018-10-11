@@ -1,0 +1,25 @@
+server {
+    listen {{ item.proxy_listen_port }};
+    ssl on;
+    server_name {{ item.proxy_server_name }};
+
+    ssl_certificate "{{ item.proxy_ssl_certificate_path }}";
+    ssl_certificate_key "{{ item.proxy_ssl_certificate_key_path }}";
+    ssl_session_cache shared:SSL:1m;
+    ssl_session_timeout  10m;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+
+    location {{ item.proxy_location }} {
+        proxy_pass http://{{ item.proxy_pass_http }}:{{ item.proxy_path_port }}/;
+    }
+}
+
+#server {
+#    listen {{ item.proxy_listen_port }};
+#    server_name {{ item.proxy_server_name }};
+#
+#    location /git/ {
+#        proxy_pass http://{{ item.proxy_pass_http }}:{{ item.proxy_path_port }}/;
+#    }
+#}

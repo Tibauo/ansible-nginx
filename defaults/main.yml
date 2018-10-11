@@ -1,0 +1,12 @@
+---
+# defaults file for nginx
+gogs:
+  name: gogs
+  proxy_listen_port: 443
+  proxy_server_name: IP
+# sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/cert.key -out /etc/nginx/cert.crt  
+  proxy_ssl_certificate_path: /etc/nginx/cert.crt
+  proxy_ssl_certificate_key_path: /etc/nginx/cert.key
+  proxy_location: /gogs/
+  proxy_pass_http: localhost 
+  proxy_path_port: 3000
